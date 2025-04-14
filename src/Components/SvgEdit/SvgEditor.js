@@ -34,9 +34,14 @@ function SvgEditor() {
               }, {})
             : {};
 
+          const tspans = Array.from(textElement.querySelectorAll("tspan"));
+          const textContent = tspans.length
+            ? tspans.map((tspan) => tspan.textContent).join("\n")
+            : textElement.textContent || "";
+
           return {
             id: textElement.getAttribute("id"),
-            text: textElement.textContent || "",
+            text: textContent,
             fontSize:
               parsedStyle["font-size"] ||
               textElement.getAttribute("font-size") ||
@@ -60,6 +65,7 @@ function SvgEditor() {
         .filter((field) => field.id);
 
       setTextFields(fields);
+      updateModifiedSvgContent(fields); // Update SVG content immediately
     }
   }, [originalSvgContent]);
 
@@ -112,13 +118,13 @@ function SvgEditor() {
 
         const existingStyle = textElement.getAttribute("style") || "";
         const updatedStyle = `
-          ${existingStyle};
-          font-size: ${field.fontSize};
-          font-family: ${field.fontFamily};
-          font-style: ${field.fontStyle};
-          fill: ${field.fill};
-          -inkscape-font-specification: '${field.fontFamily}, Normal';
-        `;
+            ${existingStyle};
+            font-size: ${field.fontSize};
+            font-family: ${field.fontFamily};
+            font-style: ${field.fontStyle};
+            fill: ${field.fill};
+            -inkscape-font-specification: '${field.fontFamily}, Normal';
+          `;
 
         textElement.setAttribute("font-size", field.fontSize);
         textElement.setAttribute("font-family", field.fontFamily);
