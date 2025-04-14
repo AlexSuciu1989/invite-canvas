@@ -5,9 +5,11 @@ function FontSettings({
   fontSize,
   fontStyle,
   fontFamily,
+  fontColor,
   onFontSizeChange,
   onFontStyleChange,
   onFontFamilyChange,
+  onFontColorChange,
 }) {
   return (
     <div>
@@ -21,6 +23,17 @@ function FontSettings({
           placeholder="Font size for title"
           className="form-control"
           id="font-size-input"
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="font-color-input">Font Color</label>
+        <input
+          type="text"
+          value={fontColor}
+          onChange={onFontColorChange}
+          placeholder="hex code"
+          className="form-control"
+          id="font-color-input"
         />
       </div>
       <div className="mb-3">

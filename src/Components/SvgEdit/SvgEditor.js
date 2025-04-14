@@ -3,13 +3,14 @@ import FileUpload from "./FileUpload";
 import TextInput from "./TextInput";
 import FontSettings from "./FontSettings";
 import PositionSettings from "./PositionSettings";
+import ZoomControls from "./ZoomControls";
 import "./SvgEditor.css";
 
 function SvgEditor() {
   const [originalSvgContent, setOriginalSvgContent] = useState("");
   const [modifiedSvgContent, setModifiedSvgContent] = useState("");
   const [textFields, setTextFields] = useState([]);
-  const [zoomFactor, setZoomFactor] = useState(1); // Default zoom at 1x
+  const [zoomFactor, setZoomFactor] = useState(1);
 
   useEffect(() => {
     const parser = new DOMParser();
@@ -34,7 +35,7 @@ function SvgEditor() {
             : {};
 
           return {
-            id: textElement.getAttribute("id"), // Use actual ID
+            id: textElement.getAttribute("id"),
             text: textElement.textContent || "",
             fontSize:
               parsedStyle["font-size"] ||
@@ -49,25 +50,25 @@ function SvgEditor() {
               textElement.getAttribute("font-style") ||
               "normal",
             fill:
-              parsedStyle["fill"] || textElement.getAttribute("fill") || "#000", // Handle text color
+              parsedStyle["fill"] || textElement.getAttribute("fill") || "#000",
             inkscapeFontSpecification:
               parsedStyle["-inkscape-font-specification"] || "",
             x: textElement.getAttribute("x") || "0",
             y: textElement.getAttribute("y") || "0",
           };
         })
-        .filter((field) => field.id); // Only include elements with IDs
+        .filter((field) => field.id);
 
       setTextFields(fields);
     }
   }, [originalSvgContent]);
 
   const handleZoomIn = () => {
-    setZoomFactor((prevZoom) => Math.min(prevZoom + 0.1, 3)); // Max zoom 3x
+    setZoomFactor((prevZoom) => Math.min(prevZoom + 0.1, 3));
   };
 
   const handleZoomOut = () => {
-    setZoomFactor((prevZoom) => Math.max(prevZoom - 0.1, 0.5)); // Min zoom 0.5x
+    setZoomFactor((prevZoom) => Math.max(prevZoom - 0.1, 0.5));
   };
 
   const handleFileUpload = (event) => {
@@ -109,7 +110,6 @@ function SvgEditor() {
           textElement.appendChild(tspan);
         });
 
-        // Merge existing styles with new styles
         const existingStyle = textElement.getAttribute("style") || "";
         const updatedStyle = `
           ${existingStyle};
@@ -120,11 +120,10 @@ function SvgEditor() {
           -inkscape-font-specification: '${field.fontFamily}, Normal';
         `;
 
-        // Update attributes and styles
         textElement.setAttribute("font-size", field.fontSize);
         textElement.setAttribute("font-family", field.fontFamily);
         textElement.setAttribute("font-style", field.fontStyle);
-        textElement.setAttribute("fill", field.fill); // Ensure fill is set
+        textElement.setAttribute("fill", field.fill);
         textElement.setAttribute("x", field.x);
         textElement.setAttribute("y", field.y);
         textElement.setAttribute("style", updatedStyle);
@@ -166,7 +165,7 @@ function SvgEditor() {
       </div>
 
       <div className="row mt-3">
-        <div className="col-md-6">
+        <div className="col-lg-6">
           <div className="card mb-3 sticky-top">
             <div className="card-header">
               <h3>Live Preview</h3>
@@ -184,14 +183,10 @@ function SvgEditor() {
                     preserveAspectRatio="xMidYMid meet"
                     dangerouslySetInnerHTML={{ __html: modifiedSvgContent }}
                   />
-                  <div className="zoom-btns">
-                    <button onClick={handleZoomIn} className="btn btn-success">
-                      Zoom In
-                    </button>
-                    <button onClick={handleZoomOut} className="btn btn-danger">
-                      Zoom Out
-                    </button>
-                  </div>
+                  <ZoomControls
+                    handleZoomIn={handleZoomIn}
+                    handleZoomOut={handleZoomOut}
+                  />
                 </div>
               ) : (
                 <p>No SVG uploaded.</p>
@@ -200,7 +195,7 @@ function SvgEditor() {
           </div>
         </div>
 
-        <div className="col-md-6">
+        <div className="col-lg-6">
           <div className="card mb-3">
             <div className="card-header">
               <h3>SVG Settings</h3>
@@ -220,6 +215,7 @@ function SvgEditor() {
                     fontSize={textFields[index].fontSize}
                     fontStyle={textFields[index].fontStyle}
                     fontFamily={textFields[index].fontFamily}
+                    fontColor={textFields[index].fill}
                     onFontSizeChange={(e) =>
                       handleFieldChange(index, "fontSize", e.target.value)
                     }
@@ -228,6 +224,9 @@ function SvgEditor() {
                     }
                     onFontFamilyChange={(e) =>
                       handleFieldChange(index, "fontFamily", e.target.value)
+                    }
+                    onFontColorChange={(e) =>
+                      handleFieldChange(index, "fill", e.target.value)
                     }
                   />
 
