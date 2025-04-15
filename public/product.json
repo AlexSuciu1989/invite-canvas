@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "svg_img": "invitatie_1.svg",
+        "title": "Invitatie de nunta cu tenesi",
+        "short_description": "This is a short description that i like",
+        "long_description": "this is a very long description that i have to put in in order to understand if it works",
+        "vip": true
+    },
+    {
+        "id": 2,
+        "svg_img": "invitatie_1.svg",
+        "title": "Invitatie de nunta cu tenesi",
+        "short_description": "This is a short description that i like",
+        "long_description": "this is a very long description that i have to put in in order to understand if it works",
+        "vip": true
+    }
+]
