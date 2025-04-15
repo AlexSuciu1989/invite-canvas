@@ -1,17 +1,11 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
 import Products from "./Components/Products/Products";
-import SvgEditor from "./Components/SvgEdit/SvgEditor";
 
 function App() {
-
-
   return (
     <div className="App">
-
-
       <Products />
     </div>
   );
