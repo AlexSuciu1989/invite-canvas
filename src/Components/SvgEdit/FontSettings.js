@@ -6,10 +6,12 @@ function FontSettings({
   fontStyle,
   fontFamily,
   fontColor,
+  textAlign,
   onFontSizeChange,
   onFontStyleChange,
   onFontFamilyChange,
   onFontColorChange,
+  onTextAlignChange,
 }) {
   return (
     <div>
@@ -28,10 +30,9 @@ function FontSettings({
       <div className="mb-3">
         <label htmlFor="font-color-input">Font Color</label>
         <input
-          type="text"
+          type="color"
           value={fontColor}
           onChange={onFontColorChange}
-          placeholder="hex code"
           className="form-control"
           id="font-color-input"
         />
@@ -66,6 +67,19 @@ function FontSettings({
               {font.label}
             </option>
           ))}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label htmlFor="text-align-input">Text Alignment</label>
+        <select
+          value={textAlign}
+          onChange={onTextAlignChange}
+          className="form-select"
+          id="text-align-input"
+        >
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
         </select>
       </div>
     </div>

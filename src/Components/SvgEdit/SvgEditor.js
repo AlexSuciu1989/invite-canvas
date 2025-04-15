@@ -118,13 +118,36 @@ function SvgEditor() {
 
         const existingStyle = textElement.getAttribute("style") || "";
         const updatedStyle = `
-            ${existingStyle};
-            font-size: ${field.fontSize};
-            font-family: ${field.fontFamily};
-            font-style: ${field.fontStyle};
-            fill: ${field.fill};
-            -inkscape-font-specification: '${field.fontFamily}, Normal';
-          `;
+            ${existingStyle};
+            font-size: ${field.fontSize};
+            font-family: ${field.fontFamily};
+            font-style: ${field.fontStyle};
+            fill: ${field.fill};      
+ 
+
+                    text-anchor: ${
+              field.textAlign === "center"
+                ? "middle"
+                : field.textAlign === "right"
+                ? "end"
+                : "start"
+            };
+
+            -inkscape-font-specification: '${field.fontFamily}, Normal';
+          `;
+
+        // Add new text element at the bottom right
+        const newTextElement = svgDoc.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+        newTextElement.setAttribute("x", "1%");
+        newTextElement.setAttribute("y", "100%");
+        newTextElement.setAttribute("font-size", "16");
+        newTextElement.setAttribute("font-family", "Arial");
+        newTextElement.setAttribute("fill", "#D3D3D3");
+        newTextElement.textContent = "cutiutacudetoate.ro";
+        svgDoc.documentElement.appendChild(newTextElement);
 
         textElement.setAttribute("font-size", field.fontSize);
         textElement.setAttribute("font-family", field.fontFamily);
@@ -133,6 +156,15 @@ function SvgEditor() {
         textElement.setAttribute("x", field.x);
         textElement.setAttribute("y", field.y);
         textElement.setAttribute("style", updatedStyle);
+
+        textElement.setAttribute(
+          "text-anchor",
+          field.textAlign === "center"
+            ? "middle"
+            : field.textAlign === "right"
+            ? "end"
+            : "start"
+        );
       }
     });
 
@@ -222,6 +254,7 @@ function SvgEditor() {
                     fontStyle={textFields[index].fontStyle}
                     fontFamily={textFields[index].fontFamily}
                     fontColor={textFields[index].fill}
+                    textAlign={textFields[index].textAlign}
                     onFontSizeChange={(e) =>
                       handleFieldChange(index, "fontSize", e.target.value)
                     }
@@ -233,6 +266,9 @@ function SvgEditor() {
                     }
                     onFontColorChange={(e) =>
                       handleFieldChange(index, "fill", e.target.value)
+                    }
+                    onTextAlignChange={(e) =>
+                      handleFieldChange(index, "textAlign", e.target.value)
                     }
                   />
 
