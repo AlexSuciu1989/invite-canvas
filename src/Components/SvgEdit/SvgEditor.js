@@ -6,11 +6,25 @@ import PositionSettings from "./PositionSettings";
 import ZoomControls from "./ZoomControls";
 import "./SvgEditor.css";
 
-function SvgEditor() {
+function SvgEditor({ imgPath }) {
   const [originalSvgContent, setOriginalSvgContent] = useState("");
   const [modifiedSvgContent, setModifiedSvgContent] = useState("");
   const [textFields, setTextFields] = useState([]);
   const [zoomFactor, setZoomFactor] = useState(1);
+
+  useEffect(() => {
+    if (imgPath) {
+      fetch(imgPath)
+        .then((response) => response.text())
+        .then((svgContent) => {
+          setOriginalSvgContent(svgContent);
+          setModifiedSvgContent(svgContent);
+        })
+        .catch((error) => {
+          console.error("Error fetching SVG:", error);
+        });
+    }
+  }, [imgPath]);
 
   useEffect(() => {
     const parser = new DOMParser();
@@ -116,47 +130,28 @@ function SvgEditor() {
           textElement.appendChild(tspan);
         });
 
-        const existingStyle = textElement.getAttribute("style") || "";
         const updatedStyle = `
-            ${existingStyle};
-            font-size: ${field.fontSize};
-            font-family: ${field.fontFamily};
-            font-style: ${field.fontStyle};
-            fill: ${field.fill};      
- 
+          font-size: ${field.fontSize};
+          font-family: ${field.fontFamily};
+          font-style: ${field.fontStyle};
+          fill: ${field.fill};
+          text-anchor: ${
+    field.textAlign === "center"
+      ? "middle"
+      : field.textAlign === "right"
+      ? "end"
+      : "start"
+  };
+          -inkscape-font-specification: '${field.fontFamily}, Normal';
+        `;
 
-                    text-anchor: ${
-              field.textAlign === "center"
-                ? "middle"
-                : field.textAlign === "right"
-                ? "end"
-                : "start"
-            };
-
-            -inkscape-font-specification: '${field.fontFamily}, Normal';
-          `;
-
-        // Add new text element at the bottom right
-        const newTextElement = svgDoc.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "text"
-        );
-        newTextElement.setAttribute("x", "1%");
-        newTextElement.setAttribute("y", "100%");
-        newTextElement.setAttribute("font-size", "16");
-        newTextElement.setAttribute("font-family", "Arial");
-        newTextElement.setAttribute("fill", "#D3D3D3");
-        newTextElement.textContent = "cutiutacudetoate.ro";
-        svgDoc.documentElement.appendChild(newTextElement);
-
+        textElement.setAttribute("style", updatedStyle);
         textElement.setAttribute("font-size", field.fontSize);
         textElement.setAttribute("font-family", field.fontFamily);
         textElement.setAttribute("font-style", field.fontStyle);
         textElement.setAttribute("fill", field.fill);
         textElement.setAttribute("x", field.x);
         textElement.setAttribute("y", field.y);
-        textElement.setAttribute("style", updatedStyle);
-
         textElement.setAttribute(
           "text-anchor",
           field.textAlign === "center"

@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Product.css";
 
-function Product({ data }) {
+function Product({ data, onEdit }) {
   const imgPath = require(`../../Resources/invitatii/${data.svg_img}`);
+
   return (
     <div className="card m-3 shadow-sm">
       <img
@@ -13,10 +15,24 @@ function Product({ data }) {
       <div className="card-body">
         <h5 className="card-title">{data.title}</h5>
         <p className="card-text">{data.short_description}</p>
-        <button className="btn btn-primary">Edit SVG</button>
+        <button
+          onClick={() => onEdit(data.svg_img)}
+          className="btn btn-primary"
+        >
+          Edit SVG
+        </button>
       </div>
     </div>
   );
 }
+
+Product.propTypes = {
+  data: PropTypes.shape({
+    svg_img: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    short_description: PropTypes.string.isRequired,
+  }).isRequired,
+  onEdit: PropTypes.func.isRequired,
+};
 
 export default Product;
