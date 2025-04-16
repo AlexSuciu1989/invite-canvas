@@ -1,0 +1,21 @@
+.zoom-btns {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  background-color: grey;
+  z-index: 999;
+}
+
+.zoom-btns > * {
+  width: 20px;
+  margin: 5px;
+  transition: all 0.2s ease-in;
+  filter: brightness(0) invert(1); /* Overlay white color */
+}
+
+.zoom-btns > *:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
