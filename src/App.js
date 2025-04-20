@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "./custom.scss";
 import "./App.css";
+
 import Navigation from "./Components/Navigation/Navigation";
 import Products from "./Components/Products/Products";
 

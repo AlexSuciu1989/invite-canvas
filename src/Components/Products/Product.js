@@ -6,7 +6,7 @@ function Product({ data, onEdit }) {
   const imgPath = require(`../../Resources/invitatii/${data.svg_img}`);
 
   return (
-    <div className="card m-3 shadow-sm">
+    <div className="Product card m-3 shadow-sm">
       <img
         src={imgPath}
         className="card-img-top border rounded m-2"
