@@ -1,0 +1,63 @@
+[
+    {
+        "id": 1,
+        "svg_img": "invitatie_1.svg",
+        "title": "Invitatie de nunta cu tenesi - wedding rbg vip_true sneakers bg-false",
+        "short_description": "This is a short description that i like",
+        "long_description": "this is a very long description that i have to put in in order to understand if it works",
+        "vip": true,
+        "product_category": "wedding",
+        "product_theme": "sneakers",
+        "product_colors": ["red", "blue", "green"],
+        "product_background": false
+    },
+    {
+        "id": 2,
+        "svg_img": "modified_2.svg",
+        "title": "Invitatie de nunta cu tenesi - wedding ybp vip_false sneakers bg-true",
+        "short_description": "This is a short description that i like",
+        "long_description": "this is a very long description that i have to put in in order to understand if it works",
+        "vip": false,
+        "product_category": "wedding",
+        "product_theme": "sneakers",
+        "product_colors": ["yellow", "blue", "purple"],
+        "product_background": true
+    },
+    {
+        "id": 3,
+        "svg_img": "modified_2.svg",
+        "title": "Invitatie de nunta cu tenesi - wedding rb vip_true sneakers bg-false",
+        "short_description": "This is a short description that i like",
+        "long_description": "this is a very long description that i have to put in in order to understand if it works",
+        "vip": true,
+        "product_category": "wedding",
+        "product_theme": "sneakers",
+        "product_colors": ["red", "blue"],
+        "product_background": false
+    },
+    {
+        "id": 4,
+        "svg_img": "modified_2.svg",
+        "title": "Invitatie de nunta cu tenesi - birthday p vip_false elegance bg-true",
+        "short_description": "This is a short description that i like",
+        "long_description": "this is a very long description that i have to put in in order to understand if it works",
+        "vip": false,
+        "product_category": "birthday",
+        "product_theme": "elegance",
+        "product_colors": ["purple"],
+        "product_background": true
+    }
+    ,
+    {
+        "id": 5,
+        "svg_img": "modified_2.svg",
+        "title": "Invitatie de nunta cu tenesi - botez py vip_true elegance bg-false",
+        "short_description": "This is a short description that i like",
+        "long_description": "this is a very long description that i have to put in in order to understand if it works",
+        "vip": true,
+        "product_category": "botez",
+        "product_theme": "elegance",
+        "product_colors": ["purple", "yellow"],
+        "product_background": false
+    }
+]

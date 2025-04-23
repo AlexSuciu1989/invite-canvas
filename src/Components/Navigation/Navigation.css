@@ -1,0 +1,19 @@
+.Navigation {
+    border-bottom: 2px solid #e6e61a ;
+}
+
+li:hover {
+    cursor:pointer;
+    background-color: #bebc18;
+    color: white;
+}
+
+.menu-item {
+    background-color: #e6e61a;
+    transition: all 0.2s ease;
+}
+
+.activeMenu {
+    background-color: #bebc18;
+    color: white;
+  }
