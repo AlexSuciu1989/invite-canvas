@@ -7,7 +7,15 @@ function Products({ onEdit }) {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [imgPath, setImgPath] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 6;
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredData.length / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const paginatedData = filteredData.slice(startIndex, endIndex);
+  
   // Filters and unique values
   const [vip, setVip] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -96,7 +104,9 @@ function Products({ onEdit }) {
 
   return (
     <div className="Products d-flex row">
-      {/* Filters */}
+      
+      <div className="d-flex">
+        {/* Filters */}
       <div className="Filters m-2 mt-3 rounded shadow-sm border px-3 p-2 col-2">
         <div className="mb-3 border-bottom pb-2">
           <p className="">Card Type</p>
@@ -192,18 +202,31 @@ function Products({ onEdit }) {
           </label>
         </div>
       </div>
-
-      {/* Products */}
-      <div className="d-flex flex-wrap col">
-        {filteredData.map((product) => (
-          <Product
-            key={product.id}
-            data={product}
-            onEdit={() => handleImgPath(product)}
-          />
+                {/* Products */}
+      <div className="">
+{/* Products Listing */}
+      <div className="d-flex flex-wrap">
+        {paginatedData.map((product) => (
+          <Product key={product.id} data={product} onEdit={() => handleImgPath(product)} />
         ))}
-        <SvgEditor imgPath={imgPath} />
       </div>
+      </div>
+
+      
+      </div>
+      
+     {/* Pagination Controls */}
+     <div className="pagination d-flex align-items-center justify-content-center">
+        <button  className="btn btn-secondary" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span className="mx-3">Page {currentPage} of {totalPages}</span>
+        <button className="btn btn-secondary" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
+
+      <SvgEditor imgPath={imgPath} />
     </div>
   );
 }

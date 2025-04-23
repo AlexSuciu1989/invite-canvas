@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Navigation.css";
 
-function Navigation({ onAcasaClick, onProduseClick }) {
+function Navigation({ onAcasaClick, onProduseClick, onRegisterClick }) {
   const [itemClicked, setItemClicked] = useState(null); // Tracks the active menu item
 
   const handleClick = (item) => {
@@ -11,6 +11,7 @@ function Navigation({ onAcasaClick, onProduseClick }) {
   return (
     <div className="Navigation d-flex justify-content-between p-2 m-2">
       <div>LOGO</div>
+      <div className="d-flex">
       <ul className="list-group list-group-horizontal">
         <li
           className={`list-group-item menu-item ${
@@ -54,6 +55,14 @@ function Navigation({ onAcasaClick, onProduseClick }) {
           Contact
         </li>
       </ul>
+      <ul className="list-group list-group-horizontal ms-2">
+        <li className="list-group-item menu-item">Login</li>
+        <li className={`list-group-item menu-item ${
+            itemClicked === "Register" ? "activeMenu" : ""
+          }`} onClick={()=>{onRegisterClick(); handleClick("Register")}}>Register</li>
+        <li className="list-group-item menu-item">Logout</li>
+      </ul>
+      </div>
     </div>
   );
 }
