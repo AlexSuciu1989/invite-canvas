@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Navigation.css";
 
-function Navigation({ onAcasaClick, onProduseClick, onRegisterClick, onLoginClick }) {
+function Navigation({ onAcasaClick, onProduseClick, onRegisterClick, onLoginClick, onInvitatiileMeleClick }) {
   const [itemClicked, setItemClicked] = useState(null);
   const [username, setUsername] = useState("");
 
@@ -72,15 +72,18 @@ function Navigation({ onAcasaClick, onProduseClick, onRegisterClick, onLoginClic
         <ul className="list-group list-group-horizontal ms-2">
           {username ? (
             // ✅ Show "Logged in as" if username exists
-            <li className="list-group-item menu-item">You are Logged in as: <strong>{username}</strong></li>
+            <>
+              <li className="list-group-item menu-item">Bine ai venit, <strong>{username}</strong></li>
+              <li className={`list-group-item menu-item ${itemClicked === "InvitatiileMele" ? "activeMenu" : ""}`} onClick={() =>{onInvitatiileMeleClick(); handleClick("InvitatiileMele")}}>Invitatiile Mele</li>
+            </>
           ) : (
             // ✅ Show Login & Register buttons if not logged in
             <>
               <li className={`list-group-item menu-item ${itemClicked === "Login" ? "activeMenu" : ""}`} onClick={() => { onLoginClick(); handleClick("Login") }}>Login</li>
-              <li className={`list-group-item menu-item ${itemClicked === "Register" ? "activeMenu" : ""}`} onClick={() => { onRegisterClick(); handleClick("Register") }}>Register</li>
+              <li className={`list-group-item menu-item ${itemClicked === "Register" ? "activeMenu" : ""}`} onClick={() => { onRegisterClick(); handleClick("Register") }}>Inregistreaza-te</li>
             </>
           )}
-          <li className="list-group-item menu-item" onClick={handleLogout}>Logout</li>
+          <li className="list-group-item menu-item" onClick={handleLogout}>Iesire</li>
         </ul>
       </div>
     </div>

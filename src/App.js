@@ -6,69 +6,39 @@ import Products from "./Components/Products/Products";
 import Register from "./Components/Auth/Register";
 import Login from "./Components/Auth/Login";
 import ResetPassword from "./Components/Auth/ResetPassword";
+import Home from "./Components/Home/Home";
+import InvitatiileMele from "./Components/InvitatiileMele/InvitatiileMele";
 
 function App() {
-  const [showProducts, setShowProducts] = useState(false);
-  const [showAcasa, setShowAcasa] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+  const [currentView, setCurrentView] = useState("Acasa");
   const [resetToken, setResetToken] = useState("");
 
   useEffect(() => {
-    // ✅ Extract token from URL manually
+    // ✅ Extract token from URL only once on mount
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
 
     if (token) {
-        setResetToken(token); // ✅ Store token in state
+      setResetToken(token);
     }
-}, []);
-
-  const handleProduseClick = () => {
-    setShowAcasa(false);
-    setShowProducts(true);
-    setShowRegister(false);
-    setShowLogin(false);
-
-  };
-
-  const handleAcasaClick = () => {
-    setShowAcasa(true);
-    setShowProducts(false);
-    setShowRegister(false);
-    setShowLogin(false);
-
-  };
-
-  const handleRegisterClick = () => {
-    setShowAcasa(false);
-    setShowProducts(false);
-    setShowRegister(true);
-    setShowLogin(false);
-  };
-  
-  const handleLoginClick = () => {
-    setShowAcasa(false);
-    setShowProducts(false);
-    setShowRegister(false);
-    setShowLogin(true);
-  } 
- 
+  }, []);
 
   return (
     <div className="App">
       <Navigation
-        onAcasaClick={handleAcasaClick}
-        onProduseClick={handleProduseClick}
-        onRegisterClick={handleRegisterClick}
-        onLoginClick={handleLoginClick}
-        
+        onAcasaClick={() => setCurrentView("Acasa")}
+        onProduseClick={() => setCurrentView("Produse")}
+        onRegisterClick={() => setCurrentView("Register")}
+        onLoginClick={() => setCurrentView("Login")}
+        onInvitatiileMeleClick={() => setCurrentView("InvitatiileMele")}
       />
-      {showProducts && <Products />}
-      {showAcasa && <div className="container mt-5">Acasa</div>}
-      {showRegister && <Register />}
-      {showLogin && <Login/>}
-      {resetToken ? <ResetPassword token={resetToken} /> : ""}
+
+      {currentView === "Acasa" && <Home onButtonClick={() => setCurrentView("Produse")} />}
+      {currentView === "Produse" && <Products />}
+      {currentView === "Register" && <Register />}
+      {currentView === "Login" && <Login />}
+      {currentView === "InvitatiileMele" && <InvitatiileMele />}
+      {resetToken && <ResetPassword token={resetToken} />}
     </div>
   );
 }

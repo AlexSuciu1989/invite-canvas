@@ -7,8 +7,10 @@ function Products({ onEdit }) {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [imgPath, setImgPath] = useState("");
+  const [id, setId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
+  const [showEditor, setShowEditor] = useState(false);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredData.length / productsPerPage);
@@ -27,8 +29,13 @@ function Products({ onEdit }) {
   const [themes, setThemes] = useState([]);
   const [colors, setColors] = useState([]);
 
+  const handleShowEditor = () => {
+    setShowEditor(true); 
+  }
+
   const handleImgPath = (product) => {
     setImgPath(require(`../../Resources/invitatii/${product.svg_img}`));
+    setId(product.id);
   };
 
   useEffect(() => {
@@ -207,7 +214,14 @@ function Products({ onEdit }) {
 {/* Products Listing */}
       <div className="d-flex flex-wrap">
         {paginatedData.map((product) => (
-          <Product key={product.id} data={product} onEdit={() => handleImgPath(product)} />
+          <Product 
+          key={product.id} 
+          data={product} 
+          onEdit={() => { 
+            handleImgPath(product); 
+            handleShowEditor(); 
+          }} 
+        />
         ))}
       </div>
       </div>
@@ -226,7 +240,7 @@ function Products({ onEdit }) {
         </button>
       </div>
 
-      <SvgEditor imgPath={imgPath} />
+      {showEditor && <SvgEditor imgPath={imgPath} id={id} />}
     </div>
   );
 }

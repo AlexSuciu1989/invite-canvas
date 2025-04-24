@@ -6,7 +6,7 @@ import PositionSettings from "./PositionSettings";
 import ZoomControls from "./ZoomControls";
 import "./SvgEditor.css";
 
-function SvgEditor({ imgPath }) {
+function SvgEditor({ imgPath, id }) {
   const [originalSvgContent, setOriginalSvgContent] = useState("");
   const [modifiedSvgContent, setModifiedSvgContent] = useState("");
   const [textFields, setTextFields] = useState([]);
@@ -188,6 +188,52 @@ function SvgEditor({ imgPath }) {
     link.click();
   };
 
+  const handleSaveToDatabase = async () => {
+    const userId = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user_id="))
+      ?.split("=")[1];
+  
+    if (!userId) {
+      alert("User ID not found in cookies.");
+      return;
+    }
+  
+    const payload = textFields.map((field) => ({
+      user_id: parseInt(userId),
+      invite_id: id, // Replace this with actual invite ID
+      field: field.id,
+      text: field.text,
+      font_size: parseInt(field.fontSize),
+      font_color: field.fill,
+      font_style: field.fontStyle,
+      font_family: field.fontFamily,
+      text_alignment: field.textAlign || "left",
+      horizontal_position: parseInt(field.x),
+      vertical_position: parseInt(field.y),
+    }));
+    console.log("Payload to be sent:", payload); // Log the payload for debugging
+  
+    try {
+      const response = await fetch("https://alex-suciu.homebuddy.ro/cutiuta-cu-de-toate/php/save-svg.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      if (response.ok) {
+        alert("Data saved successfully!");
+      } else {
+        alert("Failed to save data.");
+      }
+    } catch (error) {
+      console.error("Error saving data:", error);
+      alert("An error occurred while saving.");
+    }
+  };
+
   return (
     <div className="container mt-4">
       <div className="row">
@@ -237,13 +283,14 @@ function SvgEditor({ imgPath }) {
               {textFields.map((field, index) => (
                 <div key={field.id} className="mb-3 border-bottom pb-2">
                   <h4>Settings for {field.id}</h4>
+             
+
                   <TextInput
-                    value={field.text}
-                    onChange={(e) =>
-                      handleFieldChange(index, "text", e.target.value)
-                    }
+                    value={field.text || ""} // Ensure default empty value
+                    onChange={(e) => handleFieldChange(index, "text", e.target.value)}
                     placeholder={`Enter text for ${field.id}`}
                   />
+
                   <FontSettings
                     fontSize={textFields[index].fontSize}
                     fontStyle={textFields[index].fontStyle}
@@ -279,9 +326,10 @@ function SvgEditor({ imgPath }) {
                   />
                 </div>
               ))}
-              <button onClick={handleDownload} className="btn btn-primary">
-                Download Modified SVG
+              <button onClick={handleDownload} className="btn btn-primary m-1">
+                Download
               </button>
+              <button className="btn btn-primary m-1" onClick={handleSaveToDatabase}>Salveaza in spatiul meu</button>
             </div>
           </div>
         </div>

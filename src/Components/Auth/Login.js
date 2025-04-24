@@ -82,7 +82,7 @@ const Login = () => {
                         />
                     </div>
                     <div className="mb-1">
-                        <label htmlFor="password" className="form-label">Password</label>
+                        <label htmlFor="password" className="form-label">Parola</label>
                         <input
                             type="password"
                             id="password"
@@ -93,7 +93,7 @@ const Login = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-link mb-2 mt-0 d-flex" onClick={handleForgotPasswordClick}>Forgot Password</button>
+                    <button type="submit" className="btn btn-link mb-2 mt-0 d-flex" onClick={handleForgotPasswordClick}>Am uitat parola</button>
 
                     <button type="submit" className="btn btn-primary w-100">Login</button>
                     
