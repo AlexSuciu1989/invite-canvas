@@ -24,7 +24,7 @@ function Products({ onEdit }) {
   const [selectedThemes, setSelectedThemes] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [background, setBackground] = useState(false);
-
+  const [productData, setProductData] = useState({});
   const [categories, setCategories] = useState([]);
   const [themes, setThemes] = useState([]);
   const [colors, setColors] = useState([]);
@@ -36,6 +36,7 @@ function Products({ onEdit }) {
   const handleImgPath = (product) => {
     setImgPath(require(`../../Resources/invitatii/${product.svg_img}`));
     setId(product.id);
+    setProductData(product);
   };
 
   useEffect(() => {
@@ -240,7 +241,7 @@ function Products({ onEdit }) {
         </button>
       </div>
 
-      {showEditor && <SvgEditor imgPath={imgPath} id={id} />}
+      {showEditor && <SvgEditor imgPath={imgPath} id={id} isSaved={false} data={productData} />}
     </div>
   );
 }

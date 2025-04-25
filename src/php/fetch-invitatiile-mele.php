@@ -15,8 +15,11 @@ if (!$user_id) {
     exit;
 }
 
-// Prepare the SQL query
-$sql = "SELECT session_id, invite_id FROM sessions WHERE user_id = ?";
+$sql = "SELECT invite_id, MAX(session_id) AS max_session_id
+        FROM cutiuta_spatiul_meu 
+        WHERE user_id = ? 
+        GROUP BY invite_id";
+
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
