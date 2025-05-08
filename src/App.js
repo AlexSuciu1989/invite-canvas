@@ -25,20 +25,26 @@ function App() {
 
   return (
     <div className="App">
-      <Navigation
-        onAcasaClick={() => setCurrentView("Acasa")}
-        onProduseClick={() => setCurrentView("Produse")}
-        onRegisterClick={() => setCurrentView("Register")}
-        onLoginClick={() => setCurrentView("Login")}
-        onInvitatiileMeleClick={() => setCurrentView("InvitatiileMele")}
-      />
+      {/* If resetToken exists, only show ResetPassword */}
+      {resetToken ? (
+        <ResetPassword token={resetToken} />
+      ) : (
+        <>
+          <Navigation
+            onAcasaClick={() => setCurrentView("Acasa")}
+            onProduseClick={() => setCurrentView("Produse")}
+            onRegisterClick={() => setCurrentView("Register")}
+            onLoginClick={() => setCurrentView("Login")}
+            onInvitatiileMeleClick={() => setCurrentView("InvitatiileMele")}
+          />
 
-      {currentView === "Acasa" && <Home onButtonClick={() => setCurrentView("Produse")} />}
-      {currentView === "Produse" && <Products />}
-      {currentView === "Register" && <Register />}
-      {currentView === "Login" && <Login />}
-      {currentView === "InvitatiileMele" && <InvitatiileMele />}
-      {resetToken && <ResetPassword token={resetToken} />}
+          {currentView === "Acasa" && <Home onButtonClick={() => setCurrentView("Produse")} />}
+          {currentView === "Produse" && <Products />}
+          {currentView === "Register" && <Register />}
+          {currentView === "Login" && <Login />}
+          {currentView === "InvitatiileMele" && <InvitatiileMele />}
+        </>
+      )}
     </div>
   );
 }

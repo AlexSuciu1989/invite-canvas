@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Navigation.css";
+import logo from "../../Resources/Logo Invite Canvas.png";
 
 function Navigation({ onAcasaClick, onProduseClick, onRegisterClick, onLoginClick, onInvitatiileMeleClick }) {
   const [itemClicked, setItemClicked] = useState(null);
@@ -32,7 +33,7 @@ function Navigation({ onAcasaClick, onProduseClick, onRegisterClick, onLoginClic
 
   return (
     <div className="Navigation d-flex justify-content-between p-2 m-2">
-      <div>LOGO</div>
+      <div className="logo-container"><img src={logo} alt="Logo Invite Canvas" className="logo-img"/></div>
       <div className="d-flex">
         <ul className="list-group list-group-horizontal">
           <li

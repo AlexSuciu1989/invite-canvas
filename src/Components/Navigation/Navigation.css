@@ -11,9 +11,14 @@ li:hover {
 .menu-item {
     background-color: #e6e61a;
     transition: all 0.2s ease;
+    height: 40px;
 }
 
 .activeMenu {
     background-color: #bebc18;
     color: white;
   }
+
+.logo-img {
+    height: 70px;
+}
