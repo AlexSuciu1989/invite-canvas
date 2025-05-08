@@ -1,24 +1,24 @@
 .Navigation {
-    border-bottom: 2px solid #e6e61a ;
+  border-bottom: 2px solid #e6e61a;
 }
 
-li:hover {
-    cursor:pointer;
-    background-color: #bebc18;
-    color: white;
+li:hover, .dropdown-item:hover {
+  cursor: pointer;
+  background-color: #bebc18;
+  color: white;
 }
 
 .menu-item {
-    background-color: #e6e61a;
-    transition: all 0.2s ease;
-    height: 40px;
+  background-color: #e6e61a;
+  transition: all 0.2s ease;
+  height: 40px;
 }
 
-.activeMenu {
-    background-color: #bebc18;
-    color: white;
-  }
+.active {
+  background-color: #bebc18 !important;
+  color: white !important;
+}
 
 .logo-img {
-    height: 70px;
+  height: 70px;
 }

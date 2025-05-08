@@ -115,7 +115,7 @@ function Products({ onEdit }) {
       
       <div className="d-flex">
         {/* Filters */}
-      <div className="Filters m-2 mt-3 rounded shadow-sm border px-3 p-2 col-2">
+      <div className="Filters m-2 mt-3 rounded shadow-sm border px-3 p-2 col-md-2 col-5">
         <div className="mb-3 border-bottom pb-2">
           <p className="">Card Type</p>
           <label className="ms-2">

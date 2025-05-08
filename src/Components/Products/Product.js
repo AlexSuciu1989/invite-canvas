@@ -1,12 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./Product.css";
+import vipImg from '../../Resources/crown-solid.svg';
 
 function Product({ data, onEdit, onDelete  }) {
   const imgPath = require(`../../Resources/invitatii/${data.svg_img}`);
 
   return (
-    <div className="Product card m-3 shadow-sm">
+    <div className="Product card m-3 shadow">
+      {data.vip && (<div className="vip-img-container shadow-sm bg-secondary">
+        <img className="vip-img" src={vipImg}/>
+      </div>)}
+      
       <img
         src={imgPath}
         className="card-img-top border rounded m-2"

@@ -2,13 +2,21 @@ import React, { useState, useEffect } from "react";
 import "./Navigation.css";
 import logo from "../../Resources/Logo Invite Canvas.png";
 
-function Navigation({ onAcasaClick, onProduseClick, onRegisterClick, onLoginClick, onInvitatiileMeleClick }) {
+function Navigation({
+  onAcasaClick,
+  onProduseClick,
+  onRegisterClick,
+  onLoginClick,
+  onInvitatiileMeleClick,
+}) {
   const [itemClicked, setItemClicked] = useState(null);
   const [username, setUsername] = useState("");
 
   // ✅ Read username from cookies
   const getCookie = (name) => {
-    const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    const match = document.cookie.match(
+      new RegExp("(^| )" + name + "=([^;]+)")
+    );
     return match ? match[2] : "";
   };
 
@@ -23,70 +31,129 @@ function Navigation({ onAcasaClick, onProduseClick, onRegisterClick, onLoginClic
 
   const handleLogout = () => {
     // ✅ Remove cookies by setting them to expire
-    document.cookie = "username=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-    document.cookie = "user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie =
+      "username=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie =
+      "user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
     // ✅ Force UI re-render after logout
-    setUsername(""); 
+    setUsername("");
     window.location.reload();
   };
 
   return (
-    <div className="Navigation d-flex justify-content-between p-2 m-2">
-      <div className="logo-container"><img src={logo} alt="Logo Invite Canvas" className="logo-img"/></div>
-      <div className="d-flex">
-        <ul className="list-group list-group-horizontal">
-          <li
-            className={`list-group-item menu-item ${itemClicked === "Acasa" ? "activeMenu" : ""}`}
-            onClick={() => {
-              onAcasaClick();
-              handleClick("Acasa");
-            }}
-          >
-            Acasa
-          </li>
-
-          <li
-            className={`list-group-item menu-item ${itemClicked === "Produse" ? "activeMenu" : ""}`}
-            onClick={() => {
-              onProduseClick();
-              handleClick("Produse");
-            }}
-          >
-            Produse
-          </li>
-
-          <li
-            className={`list-group-item menu-item ${itemClicked === "Despre Noi" ? "activeMenu" : ""}`}
-            onClick={() => handleClick("Despre Noi")}
-          >
-            Despre Noi
-          </li>
-
-          <li
-            className={`list-group-item menu-item ${itemClicked === "Contact" ? "activeMenu" : ""}`}
-            onClick={() => handleClick("Contact")}
-          >
-            Contact
-          </li>
-        </ul>
-        <ul className="list-group list-group-horizontal ms-2">
-          {username ? (
-            // ✅ Show "Logged in as" if username exists
-            <>
-              <li className="list-group-item menu-item">Bine ai venit, <strong>{username}</strong></li>
-              <li className={`list-group-item menu-item ${itemClicked === "InvitatiileMele" ? "activeMenu" : ""}`} onClick={() =>{onInvitatiileMeleClick(); handleClick("InvitatiileMele")}}>Invitatiile Mele</li>
-            </>
-          ) : (
-            // ✅ Show Login & Register buttons if not logged in
-            <>
-              <li className={`list-group-item menu-item ${itemClicked === "Login" ? "activeMenu" : ""}`} onClick={() => { onLoginClick(); handleClick("Login") }}>Login</li>
-              <li className={`list-group-item menu-item ${itemClicked === "Register" ? "activeMenu" : ""}`} onClick={() => { onRegisterClick(); handleClick("Register") }}>Inregistreaza-te</li>
-            </>
-          )}
-          <li className="list-group-item menu-item" onClick={handleLogout}>Iesire</li>
-        </ul>
+    <div className="Navigation d-flex flex-wrap justify-content-between p-2 m-2">
+      <div className="logo-container">
+        <img src={logo} alt="Logo Invite Canvas" className="logo-img" />
       </div>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+            <li
+              className={`nav-item ${itemClicked === "Acasa" ? "active" : ""}`}
+              onClick={() => {
+                onAcasaClick();
+                handleClick("Acasa");
+              }}
+            >
+              <a className="nav-link" href="#">
+                Acasa
+              </a>
+            </li>
+            <li
+              className={`nav-item ${
+                itemClicked === "Produse" ? "active" : ""
+              }`}
+              onClick={() => {
+                onProduseClick();
+                handleClick("Produse");
+              }}
+            >
+              <a className="nav-link" href="#">
+                Produse
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Despre Noi
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Contact
+              </a>
+            </li>
+            {username ? (
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Contul meu
+                </a>
+
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <p className="mb-2 ms-1 text-secondary">
+                    Buna, {username}!
+                  </p>
+                  <a className={`dropdown-item ${
+                itemClicked === "Produsele-mele" ? "active" : ""
+              }`} onClick={()=>{onInvitatiileMeleClick(); handleClick("Produsele-mele")}}>
+                    Produsele Mele
+                  </a>
+                  <div className="dropdown-divider"></div>
+                  <a className="dropdown-item" href="#" onClick={()=>{handleLogout()}}>
+                    Log Out
+                  </a>
+                </div>
+              </li>
+            ) : (
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Login/Register
+                </a>
+
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a className={`dropdown-item ${
+                itemClicked === "Login" ? "active" : ""
+              }`} href="#" onClick={()=>{handleClick("Login"); onLoginClick()}}>
+                    Login
+                  </a>
+                  <a className={`dropdown-item ${
+                itemClicked === "Register" ? "active" : ""
+              }`} href="#" onClick={()=>{onRegisterClick(); handleClick("Register")}}>
+                    Register
+                  </a>
+</div>
+              </li>
+            )}
+          </ul>
+        </div>
+      </nav>
     </div>
   );
 }
