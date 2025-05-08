@@ -5,12 +5,32 @@ import FontSettings from "./FontSettings";
 import PositionSettings from "./PositionSettings";
 import ZoomControls from "./ZoomControls";
 import "./SvgEditor.css";
+import FakePaymentModal from "../Payment/FakePaymentModal";
 
-function SvgEditor({ imgPath }) {
+function SvgEditor({ imgPath, id, isSaved, data }) {
   const [originalSvgContent, setOriginalSvgContent] = useState("");
   const [modifiedSvgContent, setModifiedSvgContent] = useState("");
   const [textFields, setTextFields] = useState([]);
   const [zoomFactor, setZoomFactor] = useState(1);
+  const [hasFetchedSavedFields, setHasFetchedSavedFields] = useState(false);
+ 
+  const [showFakePayment, setShowFakePayment] = useState(false);
+  const [hasPaid, setHasPaid] = useState(false);
+  
+  const initiateFakePayment = () => {
+    setShowFakePayment(true);
+  };
+  
+  const confirmFakePayment = () => {
+    setHasPaid(true);
+    setShowFakePayment(false);
+    alert("Payment successful! You can now download the SVG.");
+  };
+  
+  const cancelFakePayment = () => {
+    setShowFakePayment(false);
+  };
+
 
   useEffect(() => {
     if (imgPath) {
@@ -27,61 +47,107 @@ function SvgEditor({ imgPath }) {
   }, [imgPath]);
 
   useEffect(() => {
-    const parser = new DOMParser();
     if (originalSvgContent) {
-      const svgDoc = parser.parseFromString(
-        originalSvgContent,
-        "image/svg+xml"
-      );
+      // Parse the original SVG content to extract text fields
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(originalSvgContent, "image/svg+xml");
       const textElements = svgDoc.querySelectorAll("text");
 
-      const fields = Array.from(textElements)
-        .map((textElement) => {
-          const style = textElement.getAttribute("style");
-          const parsedStyle = style
-            ? style.split(";").reduce((acc, styleProp) => {
-                const [key, value] = styleProp
-                  .split(":")
-                  .map((item) => item.trim());
-                if (key && value) acc[key] = value;
-                return acc;
-              }, {})
-            : {};
+      const fields = Array.from(textElements).map((textElement) => {
+        const style = textElement.getAttribute("style");
+        const parsedStyle = style
+          ? style.split(";").reduce((acc, styleProp) => {
+              const [key, value] = styleProp
+                .split(":")
+                .map((item) => item.trim());
+              if (key && value) acc[key] = value;
+              return acc;
+            }, {})
+          : {};
 
-          const tspans = Array.from(textElement.querySelectorAll("tspan"));
-          const textContent = tspans.length
-            ? tspans.map((tspan) => tspan.textContent).join("\n")
-            : textElement.textContent || "";
+        const tspans = Array.from(textElement.querySelectorAll("tspan"));
+        const textContent = tspans.length
+          ? tspans.map((tspan) => tspan.textContent).join("\n")
+          : textElement.textContent || "";
 
-          return {
-            id: textElement.getAttribute("id"),
-            text: textContent,
-            fontSize:
-              parsedStyle["font-size"] ||
-              textElement.getAttribute("font-size") ||
-              "16",
-            fontFamily:
-              parsedStyle["font-family"] ||
-              textElement.getAttribute("font-family") ||
-              "Arial",
-            fontStyle:
-              parsedStyle["font-style"] ||
-              textElement.getAttribute("font-style") ||
-              "normal",
-            fill:
-              parsedStyle["fill"] || textElement.getAttribute("fill") || "#000",
-            inkscapeFontSpecification:
-              parsedStyle["-inkscape-font-specification"] || "",
-            x: textElement.getAttribute("x") || "0",
-            y: textElement.getAttribute("y") || "0",
-          };
-        })
-        .filter((field) => field.id);
+        return {
+          id: textElement.getAttribute("id"),
+          text: textContent,
+          fontSize:
+            parsedStyle["font-size"] ||
+            textElement.getAttribute("font-size") ||
+            "16",
+          fontFamily:
+            parsedStyle["font-family"] ||
+            textElement.getAttribute("font-family") ||
+            "Arial",
+          fontStyle:
+            parsedStyle["font-style"] ||
+            textElement.getAttribute("font-style") ||
+            "normal",
+          fill:
+            parsedStyle["fill"] || textElement.getAttribute("fill") || "#000",
+          inkscapeFontSpecification:
+            parsedStyle["-inkscape-font-specification"] || "",
+          x: textElement.getAttribute("x") || "0",
+          y: textElement.getAttribute("y") || "0",
+        };
+      }).filter((field) => field.id);
 
+      console.log("Text Fields after parsing SVG:", fields);
       setTextFields(fields);
-      updateModifiedSvgContent(fields); // Update SVG content immediately
     }
   }, [originalSvgContent]);
+
+  useEffect(() => {
+    const fetchSavedFields = async () => {
+      const userId = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("user_id="))
+        ?.split("=")[1];
+  
+      if (!userId || !id || !isSaved || textFields.length === 0 || hasFetchedSavedFields) return;
+  
+      try {
+        const response = await fetch(
+          `https://alex-suciu.homebuddy.ro/cutiuta-cu-de-toate/php/get-svg-session.php?user_id=${parseInt(
+            userId
+          )}&invite_id=${parseInt(id)}`
+        );
+        const data = await response.json();
+        console.log("Fetched saved fields:", data);
+  
+        if (Array.isArray(data)) {
+          const updatedFields = textFields.map((field) => {
+            const match = data.find((d) => d.field === field.id);
+            return match
+              ? {
+                  ...field,
+                  text: match.text,
+                  fontSize: match.font_size.toString(),
+                  fontFamily: match.font_family,
+                  fontStyle: match.font_style,
+                  fill: match.font_color,
+                  textAlign: match.text_alignment,
+                  x: match.horizontal_position.toString(),
+                  y: match.vertical_position.toString(),
+                }
+              : field;
+          });
+  
+          console.log("Updated fields after saved data:", updatedFields);
+          setTextFields(updatedFields);
+          updateModifiedSvgContent(updatedFields);
+          setHasFetchedSavedFields(true); // ✅ prevent re-fetching
+        }
+      } catch (error) {
+        console.error("Failed to fetch saved fields:", error);
+      }
+    };
+  
+    fetchSavedFields();
+  }, [isSaved, id, textFields, hasFetchedSavedFields]);
+  
 
   const handleZoomIn = () => {
     setZoomFactor((prevZoom) => Math.min(prevZoom + 0.1, 3));
@@ -130,20 +196,12 @@ function SvgEditor({ imgPath }) {
           textElement.appendChild(tspan);
         });
 
-        const updatedStyle = `
-          font-size: ${field.fontSize};
+        const updatedStyle = `font-size: ${field.fontSize};
           font-family: ${field.fontFamily};
           font-style: ${field.fontStyle};
           fill: ${field.fill};
-          text-anchor: ${
-    field.textAlign === "center"
-      ? "middle"
-      : field.textAlign === "right"
-      ? "end"
-      : "start"
-  };
-          -inkscape-font-specification: '${field.fontFamily}, Normal';
-        `;
+          text-anchor: ${field.textAlign === "center" ? "middle" : field.textAlign === "right" ? "end" : "start"};
+          -inkscape-font-specification: '${field.fontFamily}, Normal';`;
 
         textElement.setAttribute("style", updatedStyle);
         textElement.setAttribute("font-size", field.fontSize);
@@ -186,6 +244,52 @@ function SvgEditor({ imgPath }) {
     link.href = URL.createObjectURL(blob);
     link.download = "modified.svg";
     link.click();
+  };
+
+  const handleSaveToDatabase = async () => {
+    const userId = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user_id="))
+      ?.split("=")[1];
+
+    if (!userId) {
+      alert("User ID not found in cookies.");
+      return;
+    }
+
+    const payload = textFields.map((field) => ({
+      user_id: parseInt(userId),
+      invite_id: id, // Replace this with actual invite ID
+      field: field.id,
+      text: field.text,
+      font_size: parseInt(field.fontSize),
+      font_color: field.fill,
+      font_style: field.fontStyle,
+      font_family: field.fontFamily,
+      text_alignment: field.textAlign || "left",
+      horizontal_position: parseInt(field.x),
+      vertical_position: parseInt(field.y),
+    }));
+    console.log("Payload to be sent:", payload); // Log the payload for debugging
+
+    try {
+      const response = await fetch("https://alex-suciu.homebuddy.ro/cutiuta-cu-de-toate/php/save-svg.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert("Data saved successfully!");
+      } else {
+        alert("Failed to save data.");
+      }
+    } catch (error) {
+      console.error("Error saving data:", error);
+      alert("An error occurred while saving.");
+    }
   };
 
   return (
@@ -237,13 +341,13 @@ function SvgEditor({ imgPath }) {
               {textFields.map((field, index) => (
                 <div key={field.id} className="mb-3 border-bottom pb-2">
                   <h4>Settings for {field.id}</h4>
+
                   <TextInput
-                    value={field.text}
-                    onChange={(e) =>
-                      handleFieldChange(index, "text", e.target.value)
-                    }
+                    value={field.text || ""} // Ensure default empty value
+                    onChange={(e) => handleFieldChange(index, "text", e.target.value)}
                     placeholder={`Enter text for ${field.id}`}
                   />
+
                   <FontSettings
                     fontSize={textFields[index].fontSize}
                     fontStyle={textFields[index].fontStyle}
@@ -279,8 +383,29 @@ function SvgEditor({ imgPath }) {
                   />
                 </div>
               ))}
-              <button onClick={handleDownload} className="btn btn-primary">
-                Download Modified SVG
+              {data?.vip ? (
+  hasPaid ? (
+    <button onClick={handleDownload} className="btn btn-success m-1">
+      Download (Paid)
+    </button>
+  ) : (
+    <button onClick={initiateFakePayment} className="btn btn-warning m-1">
+      Pay to Download
+    </button>
+  )
+) : (
+  <button onClick={handleDownload} className="btn btn-primary m-1">
+    Download
+  </button>
+)}
+{showFakePayment && (
+  <FakePaymentModal
+    onConfirm={confirmFakePayment}
+    onCancel={cancelFakePayment}
+  />
+)}
+              <button className="btn btn-primary m-1" onClick={handleSaveToDatabase}>
+                Save to My Space
               </button>
             </div>
           </div>
