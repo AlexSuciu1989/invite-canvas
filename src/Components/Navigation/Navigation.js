@@ -8,6 +8,7 @@ function Navigation({
   onRegisterClick,
   onLoginClick,
   onInvitatiileMeleClick,
+  onAboutClick,
 }) {
   const [itemClicked, setItemClicked] = useState(null);
   const [username, setUsername] = useState("");
@@ -84,7 +85,13 @@ function Navigation({
                 Produse
               </a>
             </li>
-            <li className="nav-item">
+            <li
+              className={`nav-item ${itemClicked === "About" ? "active" : ""}`}
+              onClick={() => {
+                onAboutClick();
+                handleClick("About");
+              }}
+            >
               <a className="nav-link" href="#">
                 Despre Noi
               </a>
@@ -109,16 +116,26 @@ function Navigation({
                 </a>
 
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <p className="mb-2 ms-1 text-secondary">
-                    Buna, {username}!
-                  </p>
-                  <a className={`dropdown-item ${
-                itemClicked === "Produsele-mele" ? "active" : ""
-              }`} onClick={()=>{onInvitatiileMeleClick(); handleClick("Produsele-mele")}}>
+                  <p className="mb-2 ms-1 text-secondary">Buna, {username}!</p>
+                  <a
+                    className={`dropdown-item ${
+                      itemClicked === "Produsele-mele" ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      onInvitatiileMeleClick();
+                      handleClick("Produsele-mele");
+                    }}
+                  >
                     Produsele Mele
                   </a>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#" onClick={()=>{handleLogout()}}>
+                  <a
+                    className="dropdown-item"
+                    href="#"
+                    onClick={() => {
+                      handleLogout();
+                    }}
+                  >
                     Log Out
                   </a>
                 </div>
@@ -138,17 +155,31 @@ function Navigation({
                 </a>
 
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a className={`dropdown-item ${
-                itemClicked === "Login" ? "active" : ""
-              }`} href="#" onClick={()=>{handleClick("Login"); onLoginClick()}}>
+                  <a
+                    className={`dropdown-item ${
+                      itemClicked === "Login" ? "active" : ""
+                    }`}
+                    href="#"
+                    onClick={() => {
+                      handleClick("Login");
+                      onLoginClick();
+                    }}
+                  >
                     Login
                   </a>
-                  <a className={`dropdown-item ${
-                itemClicked === "Register" ? "active" : ""
-              }`} href="#" onClick={()=>{onRegisterClick(); handleClick("Register")}}>
+                  <a
+                    className={`dropdown-item ${
+                      itemClicked === "Register" ? "active" : ""
+                    }`}
+                    href="#"
+                    onClick={() => {
+                      onRegisterClick();
+                      handleClick("Register");
+                    }}
+                  >
                     Register
                   </a>
-</div>
+                </div>
               </li>
             )}
           </ul>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Navigation from "./Components/Navigation/Navigation";
 import Products from "./Components/Products/Products";
@@ -8,6 +8,7 @@ import Login from "./Components/Auth/Login";
 import ResetPassword from "./Components/Auth/ResetPassword";
 import Home from "./Components/Home/Home";
 import InvitatiileMele from "./Components/InvitatiileMele/InvitatiileMele";
+import About from "./Components/About/About";
 
 function App() {
   const [currentView, setCurrentView] = useState("Acasa");
@@ -36,13 +37,17 @@ function App() {
             onRegisterClick={() => setCurrentView("Register")}
             onLoginClick={() => setCurrentView("Login")}
             onInvitatiileMeleClick={() => setCurrentView("InvitatiileMele")}
+            onAboutClick={() => setCurrentView("About")}
           />
 
-          {currentView === "Acasa" && <Home onButtonClick={() => setCurrentView("Produse")} />}
+          {currentView === "Acasa" && (
+            <Home onButtonClick={() => setCurrentView("Produse")} />
+          )}
           {currentView === "Produse" && <Products />}
           {currentView === "Register" && <Register />}
           {currentView === "Login" && <Login />}
           {currentView === "InvitatiileMele" && <InvitatiileMele />}
+          {currentView === "About" && <About />}
         </>
       )}
     </div>
