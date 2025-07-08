@@ -4,7 +4,7 @@ const Home = ({onButtonClick}) => {
     return (
         <div className="container">
             <header className="text-center py-5">
-                <h1 className="display-4">Bine ati venit la Invite Canvas</h1>
+                <h1 className="display-4">Bine ati venit la Invite Canvas!</h1>
                 <p className="lead">Creati si distribuiti invitatii frumoase fara efort.</p>
             </header>
 
