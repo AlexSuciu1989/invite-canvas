@@ -4,7 +4,7 @@ const Home = ({onButtonClick}) => {
     return (
         <div className="container">
             <header className="text-center py-5">
-                <h1 className="display-4">Bine ati venit la Invite Canvas</h1>
+                <h1 className="display-4">Bine ati venit la Invite Canvas!</h1>
                 <p className="lead">Creati si distribuiti invitatii frumoase fara efort.</p>
             </header>
 
@@ -26,8 +26,8 @@ const Home = ({onButtonClick}) => {
                         <p>Alegeti dintr-o varietate de sabloane care sa se potriveasca nevoilor dumneavoastra.</p>
                     </div>
                     <div className="col-md-4 text-center">
-                        <h3>Distribuiti instant</h3>
-                        <p>Trimiteti invitatiile prin email sau pe retelele sociale in cateva secunde.</p>
+                        <h3>Detineti controlul</h3>
+                        <p>Invitatiil noastre se pot personaliza in intregime.</p>
                     </div>
                 </div>
             </section>
