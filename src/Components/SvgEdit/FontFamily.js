@@ -23,6 +23,7 @@ const FontFamilies = [
   { value: "Impact", label: "Impact" },
   { value: "Brush Script MT", label: "Brush Script MT" },
   { value: "Papyrus", label: "Papyrus" },
+  { value: "Alex Brush", label: "Alex Brush" },
 ];
 
 export default FontFamilies;

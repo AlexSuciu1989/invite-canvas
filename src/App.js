@@ -8,6 +8,7 @@ import Login from "./Components/Auth/Login";
 import ResetPassword from "./Components/Auth/ResetPassword";
 import Home from "./Components/Home/Home";
 import InvitatiileMele from "./Components/InvitatiileMele/InvitatiileMele";
+import Contact from "./Components/Contact/Contact";
 
 function App() {
   const [currentView, setCurrentView] = useState("Acasa");
@@ -33,6 +34,8 @@ function App() {
           <Navigation
             onAcasaClick={() => setCurrentView("Acasa")}
             onProduseClick={() => setCurrentView("Produse")}
+            onContactClick={() => setCurrentView("Contact")}
+            onDesprenoiClick={() => setCurrentView("Despre Noi")}
             onRegisterClick={() => setCurrentView("Register")}
             onLoginClick={() => setCurrentView("Login")}
             onInvitatiileMeleClick={() => setCurrentView("InvitatiileMele")}
@@ -40,6 +43,7 @@ function App() {
 
           {currentView === "Acasa" && <Home onButtonClick={() => setCurrentView("Produse")} />}
           {currentView === "Produse" && <Products />}
+          {currentView === "Contact" && <Contact />}
           {currentView === "Register" && <Register />}
           {currentView === "Login" && <Login />}
           {currentView === "InvitatiileMele" && <InvitatiileMele />}

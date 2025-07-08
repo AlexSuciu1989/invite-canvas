@@ -1,0 +1,55 @@
+/* Basic Layout */
+.Products {
+  padding: 1rem;
+}
+
+/* Filter Sections */
+.filter-section {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.filter-section p {
+  font-weight: 600;
+}
+
+/* Overlay Panel for Mobile Filters */
+.overlay-filter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  overflow-x: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  transition: 0.3s ease;
+  z-index: 999;
+}
+
+.overlay-filter.active {
+  width: 100%;
+}
+
+.overlay-filter .filter-panel {
+  width: 280px;
+  background: #fff;
+  height: 100%;
+  padding: 1rem;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Make checkbox spacing consistent */
+.filter-section label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+/* Responsive styles */
+@media (min-width: 992px) {
+  .overlay-filter {
+    display: none;
+  }
+}
