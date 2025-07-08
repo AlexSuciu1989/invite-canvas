@@ -59,5 +59,18 @@
         "product_theme": "elegance",
         "product_colors": ["purple", "yellow"],
         "product_background": false
+    }    
+    ,
+    {
+        "id": 6,
+        "svg_img": "002.svg",
+        "title": "Invitatie de nunta cu tenesi - botez py vip_true elegance bg-false",
+        "short_description": "This is a short description that i like",
+        "long_description": "this is a very long description that i have to put in in order to understand if it works",
+        "vip": true,
+        "product_category": "botez",
+        "product_theme": "elegance",
+        "product_colors": ["purple", "yellow"],
+        "product_background": false
     }
 ]
