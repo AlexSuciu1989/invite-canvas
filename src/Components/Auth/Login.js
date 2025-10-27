@@ -36,7 +36,7 @@ const Login = () => {
         setSuccess("");
 
         try {
-            const response = await fetch("https://alex-suciu.homebuddy.ro/cutiuta-cu-de-toate/php/login.php", {
+            const response = await fetch("https://alexsuciu.ro/invite-canvas/php/login.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

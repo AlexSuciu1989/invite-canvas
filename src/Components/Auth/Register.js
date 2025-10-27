@@ -22,7 +22,7 @@ const Register = () => {
         setSuccess(""); // Clear previous success message
     
         try {
-            const response = await fetch("https://alex-suciu.homebuddy.ro/cutiuta-cu-de-toate/php/register.php", {
+            const response = await fetch("https://alexsuciu.ro/invite-canvas/php/register.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

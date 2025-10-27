@@ -29,7 +29,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await fetch("https://alex-suciu.homebuddy.ro/cutiuta-cu-de-toate/php/reset-password.php", {
+            const response = await fetch("https://alexsuciu.ro/invite-canvas/php/reset-password.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token, password }),
@@ -41,7 +41,7 @@ const ResetPassword = () => {
                 setError(data.error); 
             } else {
                 setMessage("Password reset successfully! You can now log in."); 
-                window.location.href = "http://localhost:3000/";
+                window.location.href = "https://alexsuciu.ro/invite-canvas/index.html";
             }
         } catch (error) {
             setError("Error occurred while resetting password.");
