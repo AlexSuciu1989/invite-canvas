@@ -110,7 +110,7 @@ function SvgEditor({ imgPath, id, isSaved, data }) {
   
       try {
         const response = await fetch(
-          `https://alexsuciu.ro/invite-canvas/php/get-svg-session.php?user_id=${parseInt(
+          `https://alexsuciu.ro/projects/invite-canvas/php/get-svg-session.php?user_id=${parseInt(
             userId
           )}&invite_id=${parseInt(id)}`
         );
@@ -273,7 +273,7 @@ function SvgEditor({ imgPath, id, isSaved, data }) {
     console.log("Payload to be sent:", payload); // Log the payload for debugging
 
     try {
-      const response = await fetch("https://alexsuciu.ro/invite-canvas/php/save-svg.php", {
+      const response = await fetch("https://alexsuciu.ro/projects/invite-canvas/php/save-svg.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

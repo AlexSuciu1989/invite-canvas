@@ -23,7 +23,7 @@ function InvitatiileMele() {
         if (!userId) throw new Error("User ID not found in cookies.");
 
         const [sessionResponse, productResponse] = await Promise.all([
-          axios.get(`https://alexsuciu.homebuddy.ro/invite-canvas/php/fetch-invitatiile-mele.php?user_id=${userId}`),
+          axios.get(`https://alexsuciu.ro/projects/invite-canvas/php/fetch-invitatiile-mele.php?user_id=${userId}`),
           axios.get("./product.json"),
         ]);
 
@@ -69,7 +69,7 @@ function InvitatiileMele() {
   
     try {
 await axios.post(
-  `https://alexsuciu.ro/invite-canvas/php/delete-invite.php`,
+  `https://alexsuciu.ro/projects/invite-canvas/php/delete-invite.php`,
   new URLSearchParams({
     user_id: userId.toString(),
     invite_id: productId.toString(),

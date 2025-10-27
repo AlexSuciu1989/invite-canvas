@@ -20,7 +20,7 @@ const ForgotPassword = () => {
         setLoading(true); // ✅ Set loading state while sending request
 
         try {
-            const response = await fetch("https://alexsuciu.ro/invite-canvas/php/forgot-password.php", {
+            const response = await fetch("https://alexsuciu.ro/projects/invite-canvas/php/forgot-password.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
